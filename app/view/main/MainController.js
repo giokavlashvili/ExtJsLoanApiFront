@@ -181,5 +181,52 @@ Ext.define('LoanApi.view.main.MainController', {
                 Ext.Msg.alert('Status', 'Request Failed: ' + response.status);
             }
         });
+    },
+    onDeleteLoanClick:function(btn)
+    {
+        var userGrid = Ext.getCmp('loanlist');
+        if (userGrid.getSelectionModel().hasSelection()) {
+            var row = userGrid.getSelectionModel().getSelection()[0];
+
+            Ext.MessageBox.show({
+                title: 'Delete Record',
+                msg: 'Are you sure you want to proceed?',
+                buttons: Ext.MessageBox.OKCANCEL,
+                icon: Ext.MessageBox.WARNING,
+                fn: function(btn){
+                    if(btn == 'ok'){
+                        
+                        Ext.Ajax.request({
+                            url: 'https://localhost:7233/api/v1/LoanApplication/DeleteApplication',
+                            async: true,
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': 'bearer ' + window.localStorage.AccessToken },
+                            jsonData: {
+                                Id:row.data.id
+                            },
+                            success: function(response, opts) {
+                                //Update grid data
+                                Ext.getCmp('loanlist'). getStore(). reload();
+                            },
+                       
+                            failure: function(response, opts) {
+                                //debugger;
+                                if(response.responseText)
+                                {
+                                    let responseModel = Ext.decode( response.responseText );
+                                    console.log(responseModel);
+                                    Ext.Msg.alert('Status', 'Request Failed: ' + Object.keys(responseModel.errors)[0] + '  -  ' + responseModel.errors[Object.keys(responseModel.errors)[0]][0]);
+                                }
+                                else
+                                Ext.Msg.alert('Status', 'Request Failed: ' + response.status);
+                            }
+                        });
+
+                    } else {
+                        return;
+                    }
+                }
+            });
+        }
     }
 });

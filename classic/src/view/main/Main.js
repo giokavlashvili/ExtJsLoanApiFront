@@ -109,6 +109,13 @@ Ext.define('LoanApi.view.main.Main', {
                         pop.show();
                     }
                 }
+            },
+            {
+                text: 'Delete Selected',
+                formBind: false,
+                listeners: {
+                    click: 'onDeleteLoanClick'
+                }
             }]
         }]
     }, {

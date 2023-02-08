@@ -39,11 +39,13 @@ Ext.define('LoanApi.view.login.Login', {
                 align: 'l-r?'
             },
             errorTarget: 'under'
-        }, {
-            xtype: 'displayfield',
-            hideEmptyLabel: false,
-            value: 'Enter any non-blank password'
-        }],
+        }, 
+        // {
+        //     xtype: 'displayfield',
+        //     hideEmptyLabel: false,
+        //     value: 'Enter any non-blank password'
+        // }
+        ],
         buttons: [{
             text: 'Login',
             formBind: true,
